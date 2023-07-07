@@ -7,12 +7,14 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
@@ -92,7 +94,16 @@ class MainActivity : ComponentActivity() {
 
                                 }
 
-                            ) )
+                            ),colors = TextFieldDefaults.textFieldColors(
+                                //backgroundColor = Color(204, 204, 204, 255),
+                                cursorColor = Color.Black,
+                                //textColor = Color.Black,
+                                disabledLabelColor = Color.Transparent,
+                                disabledIndicatorColor = Color.Transparent,
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent
+                            ),
+                                shape = RoundedCornerShape(24.dp), )
                             Spacer(modifier = Modifier.height(32.dp))
                             Text(modifier = Modifier
                                 .fillMaxWidth()
