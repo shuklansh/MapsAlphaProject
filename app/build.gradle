@@ -19,8 +19,8 @@ android {
         versionName "1.0"
 
         Properties properties = new Properties()
-        properties.load(project.rootProject.file("local.properties").newDataInputStream())
-        buildConfigField "String", "MAPS_KEY", "\"${properties.getProperty("MAPS_KEY")}\""
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        manifestPlaceholders = [googleMapsApiKey: "${properties.getProperty('MAPS_KEY')}"]
 
         multiDexEnabled true
 
