@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
             var ctx = LocalContext.current
             var gc= Geocoder(ctx, Locale.getDefault())
             var keybo = LocalSoftwareKeyboardController.current
-            var mapProperties by remember{ mutableStateOf(false) }
+            var mapProperties by remember{ mutableStateOf(true) }
 
             MapsAlphaProjectTheme {
                 // A surface container using the 'background' color from the theme
