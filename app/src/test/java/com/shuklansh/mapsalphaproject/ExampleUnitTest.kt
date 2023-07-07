@@ -1,4 +1,4 @@
-package com.shuklansh.drivevideo
+package com.shuklansh.mapsalphaproject
 
 import org.junit.Test
 

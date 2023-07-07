@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Drive Video App</string>
+    <string name="app_name">Maps Alpha Project</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>

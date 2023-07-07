@@ -13,9 +13,9 @@
         android:theme="@style/Theme.MapsApp"
         tools:targetApi="31">
         <activity
-            android:name="com.shuklansh.drivevideo.MainActivity"
+            android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
+            android:label="@string/title_activity_main"
             android:theme="@style/Theme.MapsApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

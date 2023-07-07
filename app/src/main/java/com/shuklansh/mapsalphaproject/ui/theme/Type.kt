@@ -1,4 +1,4 @@
-package com.shuklansh.drivevideo.ui.theme
+package com.shuklansh.mapsalphaproject.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

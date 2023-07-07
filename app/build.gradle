@@ -4,14 +4,15 @@ plugins {
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
-    namespace 'com.shuklansh.drivevideoapp'
+    namespace 'com.shuklansh.mapsalphaproject'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.shuklansh.drivevideoapp"
+        applicationId "com.shuklansh.mapsalphaproject"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -19,7 +20,7 @@ android {
 
         Properties properties = new Properties()
         properties.load(project.rootProject.file("local.properties").newDataInputStream())
-        buildConfigField "String", "API_KEY", "\"${properties.getProperty("API_KEY")}\""
+        buildConfigField "String", "MAPS_KEY", "\"${properties.getProperty("MAPS_KEY")}\""
 
         multiDexEnabled true
 
@@ -100,5 +101,17 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.18.7'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.github.maxrave-dev:kotlin-youtubeExtractor:0.0.4'
+
+
+    // Google maps
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+    // Google maps for compose
+    implementation 'com.google.maps.android:maps-compose:2.8.0'
+
+    // KTX for the Maps SDK for Android
+    implementation 'com.google.maps.android:maps-ktx:3.2.1'
+    // KTX for the Maps SDK for Android Utility Library
+    implementation 'com.google.maps.android:maps-utils-ktx:3.2.1'
 
 }

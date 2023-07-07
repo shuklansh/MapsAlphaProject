@@ -13,5 +13,5 @@ dependencyResolutionManagement {
         maven { url "https://jitpack.io" }
     }
 }
-rootProject.name = "Drive Video App"
+rootProject.name = "Maps Alpha Project"
 include ':app'

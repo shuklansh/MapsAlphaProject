@@ -1,4 +1,4 @@
-package com.shuklansh.drivevideo.ui.theme
+package com.shuklansh.mapsalphaproject.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
