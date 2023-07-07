@@ -3,6 +3,7 @@ package com.shuklansh.mapsalphaproject
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -34,6 +35,7 @@ class MainActivity : ComponentActivity() {
             var ctx = LocalContext.current
             var gc= Geocoder(ctx, Locale.getDefault())
             var keybo = LocalSoftwareKeyboardController.current
+            var mapProperties by remember{ mutableStateOf(false) }
 
             MapsAlphaProjectTheme {
                 // A surface container using the 'background' color from the theme
@@ -46,6 +48,9 @@ class MainActivity : ComponentActivity() {
                     var locationOfUser by remember { mutableStateOf( LatLng(0.0,0.0))}
                     val cameraposState = rememberCameraPositionState{
                         position = CameraPosition.fromLatLngZoom(locationOfUser,10f)
+                    }
+                    var properties by remember{
+                        mutableStateOf(MapProperties(mapType = MapType.NORMAL))
                     }
                     suspend fun CameraPositionState.centerOnLocation(location: LatLng)=animate(
                         update = CameraUpdateFactory.newLatLngZoom(
@@ -74,39 +79,47 @@ class MainActivity : ComponentActivity() {
                             TextField(value = city , maxLines = 1, singleLine = true,onValueChange = {city = it}, keyboardActions = KeyboardActions(
                                 onDone = {
                                     var address = gc.getFromLocationName(city,2)
-                                    var locationLatLong = address?.get(0)
-                                    latlongstr = if(locationLatLong!=null){"your Latitude : "+locationLatLong.latitude.toString() + " " + "Your Longitude" + locationLatLong.longitude.toString()} else {"could not find"}
+                                    if(address?.size!! >0){
+                                        var locationLatLong = address?.get(0)
+                                        latlongstr = if(locationLatLong!=null){"Your Latitude : "+locationLatLong.latitude.toString() + " " + "Your Longitude" + locationLatLong.longitude.toString()} else {"could not find"}
 
                                         locationOfUser = LatLng(locationLatLong!!.latitude,locationLatLong.longitude)
-                                        locationOfUserTitle = locationLatLong.locality
-                                    keybo?.hide()
+                                        locationOfUserTitle = if(locationLatLong.locality==null){"no locality"}else{locationLatLong.locality}
+                                        keybo?.hide()
+                                    }else{
+                                        Toast.makeText(ctx,"Enter a valid location",Toast.LENGTH_SHORT).show()
+                                    }
 
-                                },
-                                onGo = {
-                                    var address = gc.getFromLocationName(city,2)
-                                    var locationLatLong = address?.get(0)
-                                    latlongstr = if(locationLatLong!=null){"your Latitude : "+locationLatLong.latitude.toString() + " " + "Your Longitude" + locationLatLong.longitude.toString()} else {"could not find"}
-
-                                        locationOfUser = LatLng(locationLatLong!!.latitude,locationLatLong!!.longitude)
-                                        locationOfUserTitle = locationLatLong!!.locality
-                                    keybo?.hide()
                                 }
 
                             ) )
                             Spacer(modifier = Modifier.height(32.dp))
-                            Text(modifier = Modifier.fillMaxWidth().fillMaxHeight(0.1f), textAlign = TextAlign.Center , text = latlongstr)
-                            Spacer(modifier = Modifier.height(32.dp))
+                            Text(modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(0.1f), textAlign = TextAlign.Center , text = latlongstr)
+                            Spacer(modifier = Modifier.height(22.dp))
+                            Box(modifier = Modifier.weight(1f)){
+                                GoogleMap(
+                                    modifier = Modifier.fillMaxSize(),
+                                    cameraPositionState = cameraposState,
+                                    properties = properties
+                                ){
 
-                            GoogleMap(
-                                modifier = Modifier.weight(1f),
-                                cameraPositionState = cameraposState,
-                            ){
-
-                                Marker(
-                                    state = MarkerState(position = locationOfUser),
-                                    title = locationOfUserTitle,
-                                    snippet = "Marker in ${locationOfUserTitle}"
-                                )
+                                    Marker(
+                                        state = MarkerState(position = locationOfUser),
+                                        title = locationOfUserTitle,
+                                        snippet = "Marker in ${locationOfUserTitle}"
+                                    )
+                                }
+                                Switch(modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(horizontal = 12.dp),checked = mapProperties, onCheckedChange = {if(mapProperties){
+                                    properties = MapProperties(mapType = MapType.SATELLITE)
+                                    mapProperties = !mapProperties
+                                }else{
+                                    properties = MapProperties(mapType = MapType.NORMAL)
+                                    mapProperties = !mapProperties
+                                } } )
                             }
 
                         }
